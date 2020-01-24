@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 # Initialize pygame
 pygame.init()
@@ -37,6 +38,7 @@ fireballX_change = 0
 fireballY_change = 4
 fireball_state = "ready"
 
+score = 0
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -50,6 +52,12 @@ def fire_fireball(x, y):
     global fireball_state
     fireball_state = "fire"
     screen.blit(fireballImg, (x + 16, y + 10))
+
+
+def isCollision(enemyX, enemyY, fireballX, fireballY):
+    distance = math.sqrt(math.pow((enemyX - fireballX), 2) + (math.pow(enemyY - fireballY, 2)))
+    if distance < 27:
+        return True
 
 
 # Game Loop
@@ -126,6 +134,16 @@ while running:
     if fireball_state is "fire":
         fire_fireball(fireballX, fireballY)
         fireballY -= fireballY_change
+
+    # Collision
+    collision = isCollision(enemyX, enemyY, fireballX, fireballY)
+    if collision:
+        fireballY = 480
+        fireball_state = "ready"
+        score += 1
+        print(score)
+        enemyX = random.randint(0, 800)
+        enemyY = random.randint(50, 150)
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
