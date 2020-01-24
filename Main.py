@@ -75,7 +75,9 @@ while running:
         if event.key == pygame.K_DOWN:
             playerY_change = 5
         if event.key == pygame.K_SPACE:
-            fire_fireball(playerX, fireballY)
+            if fireball_state is "ready":
+                fireballX = playerX
+                fire_fireball(fireballX, fireballY)
 
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -117,8 +119,12 @@ while running:
         enemyY = 536
 
     # fireball movement
+    if fireballY <= 0:
+        fireballY = 480
+        fireball_state = "ready"
+
     if fireball_state is "fire":
-        fire_fireball(playerX, fireballY)
+        fire_fireball(fireballX, fireballY)
         fireballY -= fireballY_change
 
     player(playerX, playerY)
