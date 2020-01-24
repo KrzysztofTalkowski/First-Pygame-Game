@@ -25,7 +25,7 @@ playerY_change = 0
 
 # Enemy
 enemyImg = pygame.image.load('tiger.png')
-enemyX = random.randint(0, 800)
+enemyX = random.randint(0, 735)
 enemyY = random.randint(50, 150)
 enemyX_change = 3
 enemyY_change = 40
@@ -142,7 +142,7 @@ while running:
         fireball_state = "ready"
         score += 1
         print(score)
-        enemyX = random.randint(0, 800)
+        enemyX = random.randint(0, 735)
         enemyY = random.randint(50, 150)
 
     player(playerX, playerY)
