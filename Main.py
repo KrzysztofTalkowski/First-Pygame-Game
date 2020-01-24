@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize pygame
 pygame.init()
@@ -16,14 +17,22 @@ playerImg = pygame.image.load('dragon.png')
 playerX = 370
 playerY = 480
 
+# Enemy
+enemyImg = pygame.image.load('tiger.png')
+enemyX = random.randint(0, 800)
+enemyY = random.randint(50, 150)
+
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
 
+def enemy(x, y):
+    screen.blit(enemyImg, (x, y))
+
+
 # Game Loop
 running = True
-
 
 while running:
     # RGB        RED  GREEN  BLUE
@@ -33,7 +42,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-# if keystroke is pressed check if it's right or left
+    # if keystroke is pressed check if it's right or left
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
             playerX -= 0.5
@@ -44,7 +53,7 @@ while running:
         if event.key == pygame.K_DOWN:
             playerY += 0.5
 
-# creating game zone
+    # creating game zone
     if playerX <= 0:
         playerX = 0
     elif playerX >= 736:
@@ -55,10 +64,6 @@ while running:
     elif playerY >= 536:
         playerY = 536
 
-
-
-
-
     player(playerX, playerY)
+    enemy(enemyX, enemyY)
     pygame.display.update()
-
