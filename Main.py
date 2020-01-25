@@ -1,4 +1,6 @@
 import pygame
+from pygame import mixer
+
 import random
 import math
 
@@ -10,6 +12,11 @@ screen = pygame.display.set_mode((800, 600))
 
 # background
 background = pygame.image.load('background.jpg')
+
+# background sound
+mixer.music.load('b1.mp3')
+mixer.music.play(-1)
+
 
 # Title and Icon
 pygame.display.set_caption("Hungry Dragon")
@@ -104,6 +111,8 @@ while running:
             playerY_change = 5
         if event.key == pygame.K_SPACE:
             if fireball_state is "ready":
+                fireball_sound = mixer.Sound('dragon.wav')
+                fireball_sound.play()
                 fireballX = playerX
                 fire_fireball(fireballX, fireballY)
 
@@ -139,6 +148,8 @@ while running:
         # Collision
         collision = isCollision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
+            explosion_sound = mixer.Sound('explo.wav')
+            explosion_sound.play()
             fireballY = 480
             fireball_state = "ready"
             score_value += 1
