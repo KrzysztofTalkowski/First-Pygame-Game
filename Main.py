@@ -23,12 +23,20 @@ playerY = 480
 playerX_change = 0
 playerY_change = 0
 
-# Enemy
-enemyImg = pygame.image.load('tiger.png')
-enemyX = random.randint(0, 735)
-enemyY = random.randint(50, 150)
-enemyX_change = 3
-enemyY_change = 40
+# 6 Enemies
+enemyImg = []
+enemyX = []
+enemyY = []
+enemyX_change = []
+enemyY_change = []
+num_of_enemies = 6
+
+for i in range(num_of_enemies):
+    enemyImg.append(pygame.image.load('tiger.png'))
+    enemyX.append(random.randint(0, 735))
+    enemyY.append(random.randint(50, 150))
+    enemyX_change.append(4)
+    enemyY_change.append(40)
 
 # Fireball
 fireballImg = pygame.image.load('hot.png')
@@ -40,12 +48,13 @@ fireball_state = "ready"
 
 score = 0
 
+
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
 
-def enemy(x, y):
-    screen.blit(enemyImg, (x, y))
+def enemy(x, y, i):
+    screen.blit(enemyImg[i], (x, y))
 
 
 def fire_fireball(x, y):
@@ -107,24 +116,37 @@ while running:
         playerY = 536
 
     # Enemy movement
-    enemyX += enemyX_change
-    if enemyX <= 0:
-        enemyX_change = 3
-        enemyY += enemyY_change
-    elif enemyX >= 736:
-        enemyX_change = -3
-        enemyY += enemyY_change
+    for i in range(num_of_enemies):
+        enemyX[i] += enemyX_change[i]
+        if enemyX[i] <= 0:
+            enemyX_change[i] = 4
+            enemyY[i] += enemyY_change[i]
+        elif enemyX[i] >= 736:
+            enemyX_change[i] = -3
+            enemyY[i] += enemyY_change[i]
+
+        # Collision
+        collision = isCollision(enemyX[i], enemyY[i], fireballX, fireballY)
+        if collision:
+            fireballY = 480
+            fireball_state = "ready"
+            score += 1
+            print(score)
+            enemyX[i] = random.randint(0, 735)
+            enemyY[i] = random.randint(50, 150)
+
+        enemy(enemyX[i], enemyY[i], i)
 
     # enemy game zone
-    if enemyX <= 0:
-        enemyX = 0
-    elif enemyX >= 736:
-        enemyX = 736
+    if enemyX[i] <= 0:
+        enemyX[i]= 0
+    elif enemyX[i] >= 736:
+        enemyX[i] = 736
 
-    if enemyY <= 0:
-        enemyY = 0
-    elif enemyY >= 536:
-        enemyY = 536
+    if enemyY[i] <= 0:
+        enemyY[i] = 0
+    elif enemyY[i] >= 536:
+        enemyY[i] = 536
 
     # fireball movement
     if fireballY <= 0:
@@ -135,17 +157,6 @@ while running:
         fire_fireball(fireballX, fireballY)
         fireballY -= fireballY_change
 
-    # Collision
-    collision = isCollision(enemyX, enemyY, fireballX, fireballY)
-    if collision:
-        fireballY = 480
-        fireball_state = "ready"
-        score += 1
-        print(score)
-        enemyX = random.randint(0, 735)
-        enemyY = random.randint(50, 150)
-
     player(playerX, playerY)
-    enemy(enemyX, enemyY)
 
     pygame.display.update()
