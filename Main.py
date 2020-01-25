@@ -35,7 +35,7 @@ for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('tiger.png'))
     enemyX.append(random.randint(0, 735))
     enemyY.append(random.randint(50, 150))
-    enemyX_change.append(4)
+    enemyX_change.append(2.5)
     enemyY_change.append(40)
 
 # Fireball
@@ -130,7 +130,7 @@ while running:
     for i in range(num_of_enemies):
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
-            enemyX_change[i] = 4
+            enemyX_change[i] = 2.5
             enemyY[i] += enemyY_change[i]
         elif enemyX[i] >= 736:
             enemyX_change[i] = -3
