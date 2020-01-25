@@ -46,7 +46,18 @@ fireballX_change = 0
 fireballY_change = 4
 fireball_state = "ready"
 
-score = 0
+# score
+
+score_value = 0
+font = pygame.font.Font('FakeHope.ttf', 32)
+
+textX = 10
+textY = 10
+
+
+def show_score(x, y):
+    score = font.render("Score : " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (x, y))
 
 
 def player(x, y):
@@ -130,8 +141,7 @@ while running:
         if collision:
             fireballY = 480
             fireball_state = "ready"
-            score += 1
-            print(score)
+            score_value += 1
             enemyX[i] = random.randint(0, 735)
             enemyY[i] = random.randint(50, 150)
 
@@ -139,7 +149,7 @@ while running:
 
     # enemy game zone
     if enemyX[i] <= 0:
-        enemyX[i]= 0
+        enemyX[i] = 0
     elif enemyX[i] >= 736:
         enemyX[i] = 736
 
@@ -158,5 +168,6 @@ while running:
         fireballY -= fireballY_change
 
     player(playerX, playerY)
+    show_score(textX, textY)
 
     pygame.display.update()
