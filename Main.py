@@ -52,18 +52,24 @@ fireballX_change = 0
 fireballY_change = 4
 fireball_state = "ready"
 
-# score
-
+# score text
 score_value = 0
 font = pygame.font.Font('FakeHope.ttf', 32)
-
 textX = 10
 textY = 10
+
+# game over text
+game_over_font = pygame.font.Font('FakeHope.ttf', 90)
 
 
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
+
+
+def game_over_text():
+    over_text = game_over_font.render("Game Over, Score: " + str(score_value), True, (100, 255, 100))
+    screen.blit(over_text, (40, 100))
 
 
 def player(x, y):
@@ -137,6 +143,14 @@ while running:
 
     # Enemy movement
     for i in range(num_of_enemies):
+
+        # Game over
+        if enemyY[i] > 460:
+            for j in range(num_of_enemies):
+                enemyY[j] = 1000
+            game_over_text()
+            break
+
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
             enemyX_change[i] = 2.5
@@ -145,7 +159,7 @@ while running:
             enemyX_change[i] = -3
             enemyY[i] += enemyY_change[i]
 
-        # Collision
+        # Collision fireball + enemy
         collision = isCollision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
             explosion_sound = mixer.Sound('explo.wav')
