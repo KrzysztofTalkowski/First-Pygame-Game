@@ -11,7 +11,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # background
-background = pygame.image.load('background.jpg')
+background = pygame.image.load('background.jpg').convert()
 
 # background sound
 mixer.music.load('b1.mp3')
@@ -41,7 +41,7 @@ for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('tiger.png'))
     enemyX.append(random.randint(0, 735))
     enemyY.append(random.randint(50, 150))
-    enemyX_change.append(2.5)
+    enemyX_change.append(1)
     enemyY_change.append(40)
 
 # Fireball
@@ -49,7 +49,7 @@ fireballImg = pygame.image.load('hot.png')
 fireballX = 0
 fireballY = 480
 fireballX_change = 0
-fireballY_change = 4
+fireballY_change = 1.5
 fireball_state = "ready"
 
 # score text
@@ -104,7 +104,7 @@ def isCollision(enemyX, enemyY, fireballX, fireballY):
 running = True
 while running:
     # RGB        RED  GREEN  BLUE
-    screen.fill((110, 200, 100))
+    # screen.fill((110, 200, 100))  //fill screen (color)
     # background image
     screen.blit(background, (0, 0))
 
@@ -115,13 +115,13 @@ while running:
     # if keystroke is pressed check if it's right or left
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
-            playerX_change = -5
+            playerX_change = -1
         if event.key == pygame.K_RIGHT:
-            playerX_change = 5
+            playerX_change = 1
         if event.key == pygame.K_UP:
-            playerY_change = -5
+            playerY_change = -1
         if event.key == pygame.K_DOWN:
-            playerY_change = 5
+            playerY_change = 1
         if event.key == pygame.K_SPACE:
             if fireball_state is "ready":
                 fireball_sound = mixer.Sound('dragon.wav')
@@ -153,7 +153,7 @@ while running:
     for i in range(num_of_enemies):
 
         # Game over
-        if enemyY[i] > 120: # TODO 460
+        if enemyY[i] > 200: # usually 460 - for tests less
             for j in range(num_of_enemies):
                 enemyY[j] = 1000
             game_over_text()
@@ -162,10 +162,10 @@ while running:
 
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
-            enemyX_change[i] = 2.5
+            enemyX_change[i] = 1
             enemyY[i] += enemyY_change[i]
         elif enemyX[i] >= 736:
-            enemyX_change[i] = -3
+            enemyX_change[i] = -1
             enemyY[i] += enemyY_change[i]
 
         # Collision fireball + enemy
