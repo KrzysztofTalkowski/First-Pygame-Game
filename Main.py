@@ -17,7 +17,6 @@ background = pygame.image.load('background.jpg')
 mixer.music.load('b1.mp3')
 mixer.music.play(-1)
 
-
 # Title and Icon
 pygame.display.set_caption("Hungry Dragon")
 icon = pygame.image.load('monster.png')
@@ -114,6 +113,7 @@ while running:
                 fireball_sound = mixer.Sound('dragon.wav')
                 fireball_sound.play()
                 fireballX = playerX
+                fireballY = playerY
                 fire_fireball(fireballX, fireballY)
 
     if event.type == pygame.KEYUP:
