@@ -4,7 +4,7 @@ from pygame import mixer
 import random
 import math
 
-# Initialize pygame
+# Initialize Game
 pygame.init()
 
 # create the screen
@@ -61,6 +61,9 @@ textY = 10
 # game over text
 game_over_font = pygame.font.Font('FakeHope.ttf', 90)
 
+# play again text
+play_again_font = pygame.font.Font('FakeHope.ttf', 130)
+
 
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -70,6 +73,11 @@ def show_score(x, y):
 def game_over_text():
     over_text = game_over_font.render("Game Over, Score: " + str(score_value), True, (100, 255, 100))
     screen.blit(over_text, (40, 100))
+
+
+def play_again_text():
+    play_again = play_again_font.render("Play Again", True, (255, 0, 0))
+    screen.blit(play_again, (115, 300))
 
 
 def player(x, y):
@@ -145,10 +153,11 @@ while running:
     for i in range(num_of_enemies):
 
         # Game over
-        if enemyY[i] > 460:
+        if enemyY[i] > 120: # TODO 460
             for j in range(num_of_enemies):
                 enemyY[j] = 1000
             game_over_text()
+            play_again_text()
             break
 
         enemyX[i] += enemyX_change[i]
