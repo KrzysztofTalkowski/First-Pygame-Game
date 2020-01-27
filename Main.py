@@ -4,7 +4,7 @@ from pygame import mixer
 import random
 import math
 
-#TODO 1. Different music on game over
+# TODO 1. Different music on game over
 # 2. Explosion image is not always working correctly
 # 3. Change movements of enemies
 # 4. Enemies should 'drop' candies(?)
@@ -25,18 +25,16 @@ screen = pygame.display.set_mode((800, 600))
 # background
 background = pygame.image.load('background.jpg').convert()
 
-
 # background sound
 mixer.music.load('b1.mp3')
 mixer.music.play(-1)
-
 
 # Sound Button
 sound_on = pygame.image.load('ON.png')
 sound_off = pygame.image.load('OFF.png')
 soundX = 760
 soundY = 10
-
+pause = False
 
 # Title and Icon
 pygame.display.set_caption("Hungry Dragon")
@@ -88,6 +86,7 @@ game_over_font = pygame.font.Font('FakeHope.ttf', 90)
 # play again text
 play_again_font = pygame.font.Font('FakeHope.ttf', 130)
 
+
 # play again loop #TODO replaying after touch on screen or input
 # play_again = 1
 
@@ -131,8 +130,22 @@ def isCollision(enemyX, enemyY, fireballX, fireballY):
         return True
 
 
-def sound_button(x, y):
+def sound_off_button(x, y):
     screen.blit(sound_off, (x, y))
+
+
+def sound_on_button(x, y):
+    screen.blit(sound_on, (x, y))
+
+
+def paused():
+    pygame.mixer.music.pause()
+
+
+def unpause():
+    global pause
+    pygame.mixer.music.unpause()
+    pause = False
 
 
 # Game Loop
@@ -147,6 +160,14 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    # music pause
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_p:
+            pause = True
+            paused()
+        if event.key == pygame.K_o:
+            pause = False
+            unpause()
     # if keystroke is pressed check if it's right or left
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
@@ -213,7 +234,7 @@ while running:
         if collision:
             explosion_sound = mixer.Sound('explo.wav')
             explosion_sound.play()
-            show_explosion(enemyX[i], enemyY[i])  #TODO works sometimes and really short
+            show_explosion(enemyX[i], enemyY[i])  # TODO works sometimes and really short
             fireballY = 480
             fireball_state = "ready"
             score_value += 1
@@ -244,6 +265,11 @@ while running:
 
     player(playerX, playerY)
     show_score(textX, textY)
-    sound_button(soundX, soundY)
+
+    # music buttons on screen
+    if pause is False:
+        sound_on_button(soundX, soundY)
+    elif pause is True:
+        sound_off_button(soundX, soundY)
 
     pygame.display.update()
