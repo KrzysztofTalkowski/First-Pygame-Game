@@ -5,15 +5,17 @@ import random
 import math
 
 # TODO 1. Different music on game over
-# 2. Explosion image is not always working correctly
-# 3. Change movements of enemies
-# 4. Enemies should 'drop' candies(?)
-# 5. Upgrade of dragon after x score
-# 6. Upgrade of enemies after x
-# 7. Replay button or y/n
-# 8. Mute Button                                            In progress
-# 9. Highscores (would be awesome)
-# 10. Accuracy of shooting on screen/End screen
+# [ ] 2. Explosion image is not always working correctly
+# [ ] 3. Change movements of enemies
+# [ ] 4. Enemies should 'drop' candies(?)
+# [ ] 5. Upgrade of dragon after x score
+# [ ] 6. Upgrade of enemies after x
+# [ ] 7. Replay button or y/n
+# [X] 8. Mute Keys  P/O
+# [ ] 9. Highscores (would be awesome)
+# [ ] 10. Accuracy of shooting on screen/End screen
+# [ ] 11. Game over when enemy touches player
+# [ ] 12. Number of enemies should increase with time
 
 
 # Initialize Game
@@ -87,10 +89,6 @@ game_over_font = pygame.font.Font('FakeHope.ttf', 90)
 play_again_font = pygame.font.Font('FakeHope.ttf', 130)
 
 
-# play again loop #TODO replaying after touch on screen or input
-# play_again = 1
-
-
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
@@ -124,7 +122,7 @@ def fire_fireball(x, y):
     screen.blit(fireballImg, (x + 16, y + 10))
 
 
-def isCollision(enemyX, enemyY, fireballX, fireballY):
+def is_collision(enemyX, enemyY, fireballX, fireballY):
     distance = math.sqrt(math.pow((enemyX - fireballX), 2) + (math.pow(enemyY - fireballY, 2)))
     if distance < 27:
         return True
@@ -159,37 +157,36 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
     # music pause
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_p:
-            pause = True
-            paused()
-        if event.key == pygame.K_o:
-            pause = False
-            unpause()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                pause = True
+                paused()
+            if event.key == pygame.K_o:
+                pause = False
+                unpause()
     # if keystroke is pressed check if it's right or left
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LEFT:
-            playerX_change = -1
-        if event.key == pygame.K_RIGHT:
-            playerX_change = 1
-        if event.key == pygame.K_UP:
-            playerY_change = -1
-        if event.key == pygame.K_DOWN:
-            playerY_change = 1
-        if event.key == pygame.K_SPACE:
-            if fireball_state is "ready":
-                fireball_sound = mixer.Sound('dragon.wav')
-                fireball_sound.play()
-                fireballX = playerX
-                fireballY = playerY
-                fire_fireball(fireballX, fireballY)
-    if event.type == pygame.KEYUP:
-        if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-            playerX_change = 0
-        if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-            playerY_change = 0
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                playerX_change = -1
+            if event.key == pygame.K_RIGHT:
+                playerX_change = 1
+            if event.key == pygame.K_UP:
+                playerY_change = -1
+            if event.key == pygame.K_DOWN:
+                playerY_change = 1
+            if event.key == pygame.K_SPACE:
+                if fireball_state is "ready":
+                    fireball_sound = mixer.Sound('dragon.wav')
+                    fireball_sound.play()
+                    fireballX = playerX
+                    fireballY = playerY
+                    fire_fireball(fireballX, fireballY)
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                playerX_change = 0
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                playerY_change = 0
 
     # player game zone
     playerX += playerX_change
@@ -230,7 +227,7 @@ while running:
             enemyY[i] += enemyY_change[i]
 
         # Collision fireball + enemy
-        collision = isCollision(enemyX[i], enemyY[i], fireballX, fireballY)
+        collision = is_collision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
             explosion_sound = mixer.Sound('explo.wav')
             explosion_sound.play()
