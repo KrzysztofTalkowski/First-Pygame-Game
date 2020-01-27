@@ -11,7 +11,7 @@ import math
 # 5. Upgrade of dragon after x score
 # 6. Upgrade of enemies after x
 # 7. Replay button or y/n
-# 8. Mute Button
+# 8. Mute Button                                            In progress
 # 9. Highscores (would be awesome)
 # 10. Accuracy of shooting on screen/End screen
 
@@ -29,6 +29,14 @@ background = pygame.image.load('background.jpg').convert()
 # background sound
 mixer.music.load('b1.mp3')
 mixer.music.play(-1)
+
+
+# Sound Button
+sound_on = pygame.image.load('ON.png')
+sound_off = pygame.image.load('OFF.png')
+soundX = 760
+soundY = 10
+
 
 # Title and Icon
 pygame.display.set_caption("Hungry Dragon")
@@ -123,6 +131,10 @@ def isCollision(enemyX, enemyY, fireballX, fireballY):
         return True
 
 
+def sound_button(x, y):
+    screen.blit(sound_off, (x, y))
+
+
 # Game Loop
 running = True
 while running:
@@ -152,14 +164,13 @@ while running:
                 fireballX = playerX
                 fireballY = playerY
                 fire_fireball(fireballX, fireballY)
-
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
             playerX_change = 0
         if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
             playerY_change = 0
-    # player game zone
 
+    # player game zone
     playerX += playerX_change
     if playerX <= 0:
         playerX = 0
@@ -233,5 +244,6 @@ while running:
 
     player(playerX, playerY)
     show_score(textX, textY)
+    sound_button(soundX, soundY)
 
     pygame.display.update()
