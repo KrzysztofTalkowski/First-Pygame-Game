@@ -4,6 +4,18 @@ from pygame import mixer
 import random
 import math
 
+#TODO 1. Different music on game over
+# 2. Explosion image is not always working correctly
+# 3. Change movements of enemies
+# 4. Enemies should 'drop' candies(?)
+# 5. Upgrade of dragon after x score
+# 6. Upgrade of enemies after x
+# 7. Replay button or y/n
+# 8. Mute Button
+# 9. Highscores (would be awesome)
+# 10. Accuracy of shooting on screen/End screen
+
+
 # Initialize Game
 pygame.init()
 
