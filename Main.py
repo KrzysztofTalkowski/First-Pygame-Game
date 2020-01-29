@@ -10,7 +10,7 @@ import math
 # [ ] 3. Change movements of enemies
 # [ ] 4. Enemies should 'drop' candies(?)
 # [ ] 5. Upgrade of dragon after x score
-# [ ] 6. Upgrade of enemies after x
+# [ ] 6. Upgrade of enemies after x (speed increased with score)
 # [ ] 7. Replay button or y/n
 # [X] 8. Mute music Keys  P/O
 # [ ] 9. Highscores (would be awesome)
@@ -32,6 +32,9 @@ background = pygame.image.load('background.jpg').convert()
 # background sound
 mixer.music.load('b1.mp3')
 mixer.music.play(-1)
+
+# End game music
+#mixer.music.load('Endgame.mp3')
 
 # Sound Button
 sound_on = pygame.image.load('ON.png')
@@ -99,7 +102,7 @@ def show_score(x, y):
 def game_over_text():
     over_text = game_over_font.render("Game Over, Score: " + str(score_value), True, (100, 255, 100))
     screen.blit(over_text, (40, 100))
-
+    paused()
 
 def play_again_text():
     play_again = play_again_font.render("Play Again", True, (255, 0, 0))
@@ -256,9 +259,9 @@ while running:
         # Collision fireball + enemy
         collision = is_collision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
+            show_explosion(enemyX[i], enemyY[i])  # TODO works sometimes and really short
             explosion_sound = mixer.Sound('explo.wav')
             explosion_sound.play()
-            show_explosion(enemyX[i], enemyY[i])  # TODO works sometimes and really short
             fireballY = 480
             fireball_state = "ready"
             score_value += 1
