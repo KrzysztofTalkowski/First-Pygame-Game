@@ -4,18 +4,20 @@ from pygame import mixer
 import random
 import math
 
-# TODO 1. Different music on game over
+# TODO
+# [ ]  1. Different music on game over
 # [ ] 2. Explosion image is not always working correctly
 # [ ] 3. Change movements of enemies
 # [ ] 4. Enemies should 'drop' candies(?)
 # [ ] 5. Upgrade of dragon after x score
 # [ ] 6. Upgrade of enemies after x
 # [ ] 7. Replay button or y/n
-# [X] 8. Mute Keys  P/O
+# [X] 8. Mute music Keys  P/O
 # [ ] 9. Highscores (would be awesome)
 # [ ] 10. Accuracy of shooting on screen/End screen
 # [ ] 11. Game over when enemy touches player
 # [ ] 12. Number of enemies should increase with time
+# [ ] 13. Convert everything into OOP
 
 
 # Initialize Game
@@ -157,6 +159,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
     # music pause
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
@@ -165,16 +168,18 @@ while running:
             if event.key == pygame.K_o:
                 pause = False
                 unpause()
-    # if keystroke is pressed check if it's right or left
+
+    # Moving player Left/Right
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 playerX_change = -1
             if event.key == pygame.K_RIGHT:
                 playerX_change = 1
-            if event.key == pygame.K_UP:
+            '''if event.key == pygame.K_UP:    # Moving up and down
                 playerY_change = -1
             if event.key == pygame.K_DOWN:
-                playerY_change = 1
+                playerY_change = 1'''
+    # Shooting with spacebar
             if event.key == pygame.K_SPACE:
                 if fireball_state is "ready":
                     fireball_sound = mixer.Sound('dragon.wav')
@@ -205,7 +210,7 @@ while running:
     for i in range(num_of_enemies):
 
         # Game over
-        if enemyY[i] > 460:  # usually 460 - for tests less
+        if enemyY[i] > 450:  # usually 460 - for tests less
             for j in range(num_of_enemies):
                 enemyY[j] = 1000
             game_over_text()
