@@ -179,7 +179,7 @@ while running:
                 playerY_change = -1
             if event.key == pygame.K_DOWN:
                 playerY_change = 1'''
-    # Shooting with spacebar
+    # Shooting with space bar
             if event.key == pygame.K_SPACE:
                 if fireball_state is "ready":
                     fireball_sound = mixer.Sound('dragon.wav')
@@ -224,13 +224,34 @@ while running:
                         pygame.quit()'''
 
         enemyX[i] += enemyX_change[i]
-        if enemyX[i] <= 0:
-            enemyX_change[i] = 1
-            enemyY[i] += enemyY_change[i]
-        elif enemyX[i] >= 736:
-            enemyX_change[i] = -1
-            enemyY[i] += enemyY_change[i]
-
+        if score_value <= 10:
+            if enemyX[i] <= 0:
+                enemyX_change[i] = 1
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -1
+                enemyY[i] += enemyY_change[i]
+        elif score_value <= 20:
+            if enemyX[i] <= 0:
+                enemyX_change[i] = 1.2
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -1.2
+                enemyY[i] += enemyY_change[i]
+        elif score_value <= 30:
+            if enemyX[i] <= 0:
+                enemyX_change[i] = 1.3
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -1.3
+                enemyY[i] += enemyY_change[i]
+        elif score_value <= 40:
+            if enemyX[i] <= 0:
+                enemyX_change[i] = 1.4
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -1.4
+                enemyY[i] += enemyY_change[i]
         # Collision fireball + enemy
         collision = is_collision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
