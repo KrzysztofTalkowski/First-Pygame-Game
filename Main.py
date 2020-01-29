@@ -200,11 +200,11 @@ while running:
     elif playerX >= 736:
         playerX = 736
 
-    playerY += playerY_change
+    '''playerY += playerY_change  # unnecessary without moving up/down
     if playerY <= 0:
         playerY = 0
     elif playerY >= 536:
-        playerY = 536
+        playerY = 536'''
 
     # Enemy movement
     for i in range(num_of_enemies):
@@ -252,6 +252,7 @@ while running:
             elif enemyX[i] >= 736:
                 enemyX_change[i] = -1.4
                 enemyY[i] += enemyY_change[i]
+
         # Collision fireball + enemy
         collision = is_collision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
