@@ -34,7 +34,7 @@ mixer.music.load('b1.mp3')
 mixer.music.play(-1)
 
 # End game music
-#mixer.music.load('Endgame.mp3')
+# mixer.music.load('Endgame.mp3')
 
 # Sound Button
 sound_on = pygame.image.load('ON.png')
@@ -93,6 +93,9 @@ game_over_font = pygame.font.Font('FakeHope.ttf', 90)
 # play again text
 play_again_font = pygame.font.Font('FakeHope.ttf', 130)
 
+# run once
+run_once = 0
+
 
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -102,7 +105,7 @@ def show_score(x, y):
 def game_over_text():
     over_text = game_over_font.render("Game Over, Score: " + str(score_value), True, (100, 255, 100))
     screen.blit(over_text, (40, 100))
-    paused()
+
 
 def play_again_text():
     play_again = play_again_font.render("Play Again", True, (255, 0, 0))
@@ -145,6 +148,10 @@ def paused():
     pygame.mixer.music.pause()
 
 
+def stop_music():
+    pygame.mixer.music.stop()
+
+
 def unpause():
     global pause
     pygame.mixer.music.unpause()
@@ -163,7 +170,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # music pause
+        # music pause
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 pause = True
@@ -172,7 +179,7 @@ while running:
                 pause = False
                 unpause()
 
-    # Moving player Left/Right
+        # Moving player Left/Right
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 playerX_change = -1
@@ -182,7 +189,7 @@ while running:
                 playerY_change = -1
             if event.key == pygame.K_DOWN:
                 playerY_change = 1'''
-    # Shooting with space bar
+            # Shooting with space bar
             if event.key == pygame.K_SPACE:
                 if fireball_state is "ready":
                     fireball_sound = mixer.Sound('dragon.wav')
@@ -213,12 +220,16 @@ while running:
     for i in range(num_of_enemies):
 
         # Game over
-        if enemyY[i] > 450:  # usually 460 - for tests less
+        if enemyY[i] > 450:  # usually 460 - for tests les
+            while run_once == 0:
+                stop_music()
+                run_once = 1
+                mixer.music.load('ENDGAME.mp3')
+                mixer.music.play(-1)
             for j in range(num_of_enemies):
                 enemyY[j] = 1000
             game_over_text()
             play_again_text()
-
             ''''while play_again:   #TODO exit
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
