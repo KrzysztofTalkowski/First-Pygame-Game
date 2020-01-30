@@ -67,7 +67,7 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 1 + int(score_value / 2)
+num_of_enemies = 1
 
 
 for i in range(num_of_enemies):
@@ -98,6 +98,9 @@ play_again_font = pygame.font.Font('FakeHope.ttf', 130)
 
 # run once
 run_once = 0
+
+# kills
+kills = 0
 
 
 def show_score(x, y):
@@ -221,7 +224,6 @@ while running:
 
     # Enemy movement
     for i in range(num_of_enemies):
-
         # Game over
         if enemyY[i] > 450:  # usually 460 - for tests les
             while run_once == 0:
@@ -250,37 +252,37 @@ while running:
                 enemyY[i] += enemyY_change[i]
         if score_value <= 2:
             if enemyX[i] <= 0:
+                enemyX_change[i] = 1.05
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -1.05
+                enemyY[i] += enemyY_change[i]
+        elif score_value <= 3:
+            if enemyX[i] <= 0:
                 enemyX_change[i] = 1.1
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
                 enemyX_change[i] = -1.1
                 enemyY[i] += enemyY_change[i]
-        elif score_value <= 3:
-            if enemyX[i] <= 0:
-                enemyX_change[i] = 1.3
-                enemyY[i] += enemyY_change[i]
-            elif enemyX[i] >= 736:
-                enemyX_change[i] = -1.3
-                enemyY[i] += enemyY_change[i]
         elif score_value <= 4:
             if enemyX[i] <= 0:
-                enemyX_change[i] = 1.4
+                enemyX_change[i] = 1.15
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
-                enemyX_change[i] = -1.4
+                enemyX_change[i] = -1.15
                 enemyY[i] += enemyY_change[i]
         elif score_value >= 5:
             if enemyX[i] <= 0:
-                enemyX_change[i] = 1.5
+                enemyX_change[i] = 1.20
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
-                enemyX_change[i] = -1.5
+                enemyX_change[i] = -1.20
                 enemyY[i] += enemyY_change[i]
 
         # Collision fireball + enemy
         collision = is_collision(enemyX[i], enemyY[i], fireballX, fireballY)
         if collision:
-            show_explosion(enemyX[i], enemyY[i])  # TODO works sometimes and really short
+            show_explosion(enemyX[i], enemyY[i])  # TODO too short
             explosion_sound = mixer.Sound('explo.wav')
             explosion_sound.play()
             fireballY = 480
@@ -288,6 +290,7 @@ while running:
             score_value += 1
             enemyX[i] = random.randint(0, 735)
             enemyY[i] = random.randint(50, 150)
+            kills += 1
 
         enemy(enemyX[i], enemyY[i], i)
 
