@@ -5,17 +5,17 @@ import random
 import math
 
 # TODO
-# [ ]  1. Different music on game over
-# [ ] 2. Explosion image is not always working correctly
-# [ ] 3. Change movements of enemies
+# [X]  1. Different music on game over
+# [X] 2. Explosion image is not always working correctly
+# [ ] 3. Change movements of enemies (to make it random)
 # [ ] 4. Enemies should 'drop' candies(?)
 # [ ] 5. Upgrade of dragon after x score
-# [ ] 6. Upgrade of enemies after x (speed increased with score)
+# [X] 6. Upgrade of enemies after x (speed increased with score)
 # [ ] 7. Replay button or y/n
 # [X] 8. Mute music Keys  P/O
 # [ ] 9. Highscores (would be awesome)
 # [ ] 10. Accuracy of shooting on screen/End screen
-# [ ] 11. Game over when enemy touches player
+# [ ] 11. Game over when enemy touches player (only when player can walk freely)
 # [ ] 12. Number of enemies should increase with time
 # [ ] 13. Convert everything into OOP
 
@@ -55,16 +55,20 @@ playerY = 480
 playerX_change = 0
 playerY_change = 0
 
+# score text
+score_value = 0
+font = pygame.font.Font('FakeHope.ttf', 32)
+textX = 10
+textY = 10
+
 # 6 Enemies
 enemyImg = []
 enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 6
+num_of_enemies = 1 + int(score_value / 2)
 
-# explosion picture
-explosionImg = pygame.image.load('explosion.png')
 
 for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('tiger.png'))
@@ -72,6 +76,10 @@ for i in range(num_of_enemies):
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(1)
     enemyY_change.append(40)
+
+# explosion picture
+explosionImg = pygame.image.load('explosion.png')
+
 
 # Fireball
 fireballImg = pygame.image.load('hot.png')
@@ -81,11 +89,6 @@ fireballX_change = 0
 fireballY_change = 1.5
 fireball_state = "ready"
 
-# score text
-score_value = 0
-font = pygame.font.Font('FakeHope.ttf', 32)
-textX = 10
-textY = 10
 
 # game over text
 game_over_font = pygame.font.Font('FakeHope.ttf', 90)
@@ -238,33 +241,40 @@ while running:
                         pygame.quit()'''
 
         enemyX[i] += enemyX_change[i]
-        if score_value <= 10:
+        if score_value <= 1:
             if enemyX[i] <= 0:
                 enemyX_change[i] = 1
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
                 enemyX_change[i] = -1
                 enemyY[i] += enemyY_change[i]
-        elif score_value <= 20:
+        if score_value <= 2:
             if enemyX[i] <= 0:
-                enemyX_change[i] = 1.2
+                enemyX_change[i] = 1.1
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
-                enemyX_change[i] = -1.2
+                enemyX_change[i] = -1.1
                 enemyY[i] += enemyY_change[i]
-        elif score_value <= 30:
+        elif score_value <= 3:
             if enemyX[i] <= 0:
                 enemyX_change[i] = 1.3
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
                 enemyX_change[i] = -1.3
                 enemyY[i] += enemyY_change[i]
-        elif score_value <= 40:
+        elif score_value <= 4:
             if enemyX[i] <= 0:
                 enemyX_change[i] = 1.4
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 736:
                 enemyX_change[i] = -1.4
+                enemyY[i] += enemyY_change[i]
+        elif score_value >= 5:
+            if enemyX[i] <= 0:
+                enemyX_change[i] = 1.5
+                enemyY[i] += enemyY_change[i]
+            elif enemyX[i] >= 736:
+                enemyX_change[i] = -1.5
                 enemyY[i] += enemyY_change[i]
 
         # Collision fireball + enemy
