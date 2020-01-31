@@ -7,7 +7,7 @@ import math
 # TODO
 # [X]  1. Different music on game over
 # [X] 2. Explosion image is not always working correctly
-# [ ] 3. Change movements of enemies (to make it random)
+# [ ] 3. Change movements of enemies (to make it random) added ghosts, but they aren't moving randomly..
 # [ ] 4. Enemies should 'drop' candies(?)
 # [ ] 5. Upgrade of dragon after x score
 # [X] 6. Upgrade of enemies after x (speed increased with score)
@@ -32,9 +32,6 @@ background = pygame.image.load('background.jpg').convert()
 # background sound
 mixer.music.load('b1.mp3')
 mixer.music.play(-1)
-
-# End game music
-# mixer.music.load('Endgame.mp3')
 
 # Sound Button
 sound_on = pygame.image.load('ON.png')
@@ -68,6 +65,15 @@ enemyY = []
 enemyX_change = []
 enemyY_change = []
 num_of_enemies = 1
+
+# Ghost
+'''ghostImg = pygame.image.load('ghost.png')
+ghostX = 200
+ghostY = 200
+ghostX_change = 1
+ghostY_change = 1
+ghost_num = 1
+'''
 
 for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('tiger.png'))
@@ -144,6 +150,10 @@ def player(x, y):
 
 def enemy(x, y, num):
     screen.blit(enemyImg[num], (x, y))
+
+
+'''def ghost(x, y):
+    screen.blit(ghostImg, (x, y))'''
 
 
 def show_explosion(x, y):
@@ -325,6 +335,30 @@ while running:
         elif enemyY[i] >= 536:
             enemyY[i] = 536
 
+    '''ghost(ghostX, ghostY)
+    # GHOST GAME ZONE
+    if ghostX <= 0:
+        ghostX = 0
+    elif ghostX >= 736:
+        ghostX = 736
+
+    if ghostY <= 0:
+        ghostY = 0
+    elif ghostY >= 536:
+        ghostY = 536
+
+    # GHOST MOVEMENT
+    if score_value <= 1:
+        if ghostX <= 0:
+            ghostX_change = random.randint(0.2, 0.2)
+            enemyY += ghostY_change
+        elif ghostX >= 736:
+            ghostX_change = random.randint(0.2, 0.2)
+            ghostY += ghostY_change
+
+    ghostX += ghostX_change
+    ghostY += ghostY_change'''
+
     # fireball movement
     if fireballY <= 0:
         fireballY = 480
@@ -339,6 +373,7 @@ while running:
     show_score(textX, textY)
     show_target(targetX, targetY, percentX, percentY)
     show_target_img(targetImgX, targetImgY)
+    '''ghost(200, 200)'''
 
     # music buttons on screen
     if pause is False:
