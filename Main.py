@@ -14,7 +14,7 @@ import math
 # [ ] 7. Replay button or y/n
 # [X] 8. Mute music Keys  P/O
 # [ ] 9. Highscores (would be awesome)
-# [ ] 10. Accuracy of shooting on screen/End screen
+# [X] 10. Accuracy of shooting on screen.   # just have to repair %
 # [ ] 11. Game over when enemy touches player (only when player can walk freely)
 # [ ] 12. Number of enemies should increase with time
 # [ ] 13. Convert everything into OOP
@@ -75,7 +75,7 @@ for i in range(num_of_enemies):
     enemyX.append(random.randint(0, 735))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(1)
-    enemyY_change.append(40)
+    enemyY_change.append(20)
 
 # explosion picture
 explosionImg = pygame.image.load('explosion.png')
@@ -99,9 +99,31 @@ play_again_font = pygame.font.Font('FakeHope.ttf', 130)
 # run once
 run_once = 0
 
-# kills
+# Accuracy of shooting
 kills = 0
+shoots = 0
+targetImg = pygame.image.load('target.png')
+targetImgX = 615
+targetImgY = 8
+targetX = 660
+targetY = 10
+percentX = 705
+percentY = 10
 
+
+def show_target_img(x, y):
+    screen.blit(targetImg, (x, y))
+
+
+def show_target(x, y, x1, y1):
+    if kills == 0:
+        val = 0
+    else:
+        val = (kills / (shoots + kills)) * 100
+    target = font.render(str(round(val)), True, (255, 255, 255))
+    percent = font.render(str('%'), True, (255, 255, 255))   # repair %
+    screen.blit(target, (x, y))
+    screen.blit(percent, (x1, y1))
 
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -158,7 +180,7 @@ def stop_music():
     pygame.mixer.music.stop()
 
 
-def unpause():
+def un_pause():
     global pause
     pygame.mixer.music.unpause()
     pause = False
@@ -183,7 +205,7 @@ while running:
                 paused()
             if event.key == pygame.K_o:
                 pause = False
-                unpause()
+                un_pause()
 
         # Moving player Left/Right
         if event.type == pygame.KEYDOWN:
@@ -309,6 +331,7 @@ while running:
     if fireballY <= 0:
         fireballY = 480
         fireball_state = "ready"
+        shoots += 1
 
     if fireball_state is "fire":
         fire_fireball(fireballX, fireballY)
@@ -316,6 +339,8 @@ while running:
 
     player(playerX, playerY)
     show_score(textX, textY)
+    show_target(targetX, targetY, percentX, percentY)
+    show_target_img(targetImgX, targetImgY)
 
     # music buttons on screen
     if pause is False:
