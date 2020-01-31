@@ -13,10 +13,10 @@ import math
 # [X] 6. Upgrade of enemies after x (speed increased with score)
 # [ ] 7. Replay button or y/n
 # [X] 8. Mute music Keys  P/O
-# [ ] 9. Highscores (would be awesome)
+# [ ] 9. High scores (would be awesome)
 # [X] 10. Accuracy of shooting on screen.   # just have to repair %
 # [ ] 11. Game over when enemy touches player (only when player can walk freely)
-# [ ] 12. Number of enemies should increase with time
+# [ ] 12. Number of enemies should increase with time or score
 # [ ] 13. Convert everything into OOP
 
 
@@ -69,7 +69,6 @@ enemyX_change = []
 enemyY_change = []
 num_of_enemies = 1
 
-
 for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('tiger.png'))
     enemyX.append(random.randint(0, 735))
@@ -80,7 +79,6 @@ for i in range(num_of_enemies):
 # explosion picture
 explosionImg = pygame.image.load('explosion.png')
 
-
 # Fireball
 fireballImg = pygame.image.load('hot.png')
 fireballX = 0
@@ -88,7 +86,6 @@ fireballY = 480
 fireballX_change = 0
 fireballY_change = 1.5
 fireball_state = "ready"
-
 
 # game over text
 game_over_font = pygame.font.Font('FakeHope.ttf', 90)
@@ -121,9 +118,10 @@ def show_target(x, y, x1, y1):
     else:
         val = (kills / (shoots + kills)) * 100
     target = font.render(str(round(val)), True, (255, 255, 255))
-    percent = font.render(str('%'), True, (255, 255, 255))   # repair %
+    percent = font.render(str('%'), True, (255, 255, 255))  # repair %
     screen.blit(target, (x, y))
     screen.blit(percent, (x1, y1))
+
 
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -144,8 +142,8 @@ def player(x, y):
     screen.blit(playerImg, (x, y))
 
 
-def enemy(x, y, i):
-    screen.blit(enemyImg[i], (x, y))
+def enemy(x, y, num):
+    screen.blit(enemyImg[num], (x, y))
 
 
 def show_explosion(x, y):
@@ -158,8 +156,8 @@ def fire_fireball(x, y):
     screen.blit(fireballImg, (x + 16, y + 10))
 
 
-def is_collision(enemyX, enemyY, fireballX, fireballY):
-    distance = math.sqrt(math.pow((enemyX - fireballX), 2) + (math.pow(enemyY - fireballY, 2)))
+def is_collision(enemy_x, enemy_y, fireball_x, fireball_y):
+    distance = math.sqrt(math.pow((enemy_x - fireball_x), 2) + (math.pow(enemy_y - fireball_y, 2)))
     if distance < 27:
         return True
 
@@ -316,16 +314,16 @@ while running:
 
         enemy(enemyX[i], enemyY[i], i)
 
-    # enemy game zone
-    if enemyX[i] <= 0:
-        enemyX[i] = 0
-    elif enemyX[i] >= 736:
-        enemyX[i] = 736
+        # enemy game zone
+        if enemyX[i] <= 0:
+            enemyX[i] = 0
+        elif enemyX[i] >= 736:
+            enemyX[i] = 736
 
-    if enemyY[i] <= 0:
-        enemyY[i] = 0
-    elif enemyY[i] >= 536:
-        enemyY[i] = 536
+        if enemyY[i] <= 0:
+            enemyY[i] = 0
+        elif enemyY[i] >= 536:
+            enemyY[i] = 536
 
     # fireball movement
     if fireballY <= 0:
